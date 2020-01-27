@@ -101,6 +101,10 @@
 				this.filters = squid_api.model.filters;
 			}
 
+			if(options.removeTotals){
+				this.removeTotals = options.removeTotals;
+			}
+
 			if (options.maxRowsPerPage) {
 				this.maxRowsPerPage = options.maxRowsPerPage;
 			}
@@ -838,6 +842,10 @@
 				});
 
 				if (results.totalSize>0) {
+					// Hide totals for PR_P1 & DR_D1 reports
+					if( this.removeTotals && (this.config.get('bookmark') === 'pr_p1' || this.config.get('bookmark') === 'dr_d1')){
+						$('tr.group td.new-category.current.measure').text('');
+					}
 					// display total
 					this.$el.find("#total").show();
 					this.$el.find("#no-data").hide();
